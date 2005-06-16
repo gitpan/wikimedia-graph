@@ -1,0 +1,31 @@
+
+2005-06-15 v0.07 Tels 7 tests
+  * use Graph::Easy v0.19 now
+  * support output format SVG
+  * die() on unknown output formats
+
+2005-03-11 v0.06 Tels 5 tests
+  * add (c) note to Graph.pgp
+  * include CHANGES
+  * require Graph::Simple v0.14
+
+2005-01-25 v0.05 Tels 5 tests
+  * fix the dumb typo in Graph.php
+  * graphcnv: no need to remove spaces from lines - a tad faster now
+
+2005-01-24 v0.04 Tels 5 tests
+  * rewrote as extension
+  * graphcnv: takes no longer unused directory parameters
+
+2005-01-12 v0.03 Tels 5 tests
+  * further cleaning of Graph.php - and pass outputmode to graphcnv
+  * graphcnv: take outputmode and return HTML or ASCII (wrapped in pre)
+  * graphcnv: use Taint mode for security
+
+2005-01-11 v0.02 Tels
+  * fixed patch (relative to ., not wiki, thanx Omega!)
+  * fixed README up a lot (Thanx again, Omega!)
+
+2005-01-07 v0.01 Tels
+  * first try
+

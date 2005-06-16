@@ -1,0 +1,136 @@
+#!/usr/bin/perl -Tw
+
+BEGIN
+  {
+  $|++;				# output buffer off
+  unshift @INC, 'lib';		# use local modules first
+  }
+
+use strict;
+# use warnings;			# be lean
+use Graph::Easy 0.19;		# use min. v0.19
+use Graph::Easy::Parser;
+
+my $timeout = 6; 		# set hard timeout
+my $debug = 0;			# set to 1 to see some debug output
+ 
+# wrong number of options?
+if (@ARGV < 2 || @ARGV > 3)
+  {
+  require Pod::Usage;		# do not load this unless nec.
+  Pod::Usage::pod2usage(-2);	# print help and exit
+  }
+
+eval
+  {
+  local $SIG{ALRM} = sub { die "graphcnv took to long to parse\n" };
+  alarm $timeout;
+
+  my $parser = Graph::Easy::Parser->new();
+
+  my ($txt, $encoding, $output) = @ARGV;
+  $output = 'html' unless $output;
+
+  if ($debug)
+    { 
+    open FILE, ">logfile.log" or die ("Cannot open logfile.log: $1");
+    print "<!-- Arguments:\n '", join ("', '", $txt, $encoding), "' -->\n";
+    }
+
+  my $graph = $parser->from_text($txt);		# create a graph object
+
+  if ($output !~ /^(html|ascii|svg)$/i)
+    {
+    die ("Output format '$output' not understood by graphcnv");
+    }
+
+  if ($output =~ /html/i)
+    {
+    my $css = "<style type='text/css'><!--\n" . $graph->css() . "--></style>\n";
+    my $html = $graph->as_html();
+
+    # mediawiki doesn't like leading spaces and empty lines in the CSS
+    $css =~ s/(^|\n)\s+/$1/g;			# spaces at front
+
+    if ($debug)
+      {
+      print FILE $css, $html;
+      close FILE;
+      }
+
+    print $css, $html;
+    }
+  elsif ($output =~ /ascii/)
+    {
+    # output as ASCII, suitable for embedding into HTML
+    print $graph->as_ascii_html();
+    }
+  else
+    {
+    # output as SVG, suitable for embedding into HTML
+    print $graph->as_svg();
+    }
+
+  # disable alarm
+  alarm 0;
+  };
+
+if ($@) 
+  {
+  die unless $@ =~ /graphcnv took to long/;	# propagate unexpected errors
+  # timed out
+  print $@;
+  }
+
+1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+graphcnv - convert textual graph description to ASCII/HTML
+
+=head1 SYNOPSIS
+
+	perl -T graphcnv graph-as-text encoding [outputtype]
+
+Examples:
+
+	perl -T graphcnv '[ Bonn ] --> [ Berlin ]' 'utf-8'
+	perl -T graphcnv '[Bonn] --> [Berlin]' 'utf-8' 'ascii'
+
+=head1 DESCRIPTION
+
+Turns a given textual graph representation into a pretty graph. Uses
+L<Graph::Easy> behind the scenes to do all the hard work.
+
+=head1 VERSIONS
+
+Please see the CHANGES file for a complete version history.
+
+=item v0.07 2005-07-12 Tels 7 tests
+
+	use Graph::Easy 0.19
+	support output format SVG
+	die on unknown output formats
+
+=back
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms of the GPL version2.
+
+See the LICENSE file for information.
+
+=head1 AUTHOR
+
+(c) by Tels bloodgate.com 2005
+
+=head1 SEE ALSO
+
+<L<Graph::Easy>, L<http://bloodgate.com/perl/graph>.
+
+=cut
