@@ -31,8 +31,11 @@ sub MY::metafile {
 
 WriteMakefile(
     NAME		=> 'wikimedia-graph',
-    VERSION		=> 0.07,
+    VERSION		=> 0.08,
     PREREQ_PM		=> {
-	Graph::Easy => 0.19,
+	Graph::Easy => 0.20,
 	},
+    ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
+      (ABSTRACT  => 'Integrate Graph::Easy into Wikimedia',
+       AUTHOR         => 'Tels <nospam-abuse@bloodgate.com>') : ()),
 );

@@ -21,7 +21,16 @@ $rc = `../graphcnv '[Bonn]->[Berlin]' 'utf-8' 'ascii'`;
 like ($rc, qr/\| Bonn/, 'render graph as ascii');
 unlike ($rc, qr/<table/, 'render graph not as html');
 
-$rc = `../graphcnv '[Bonn]->[Berlin]' 'utf-8' 'svg'`;
-like ($rc, qr/svg/, 'render graph as svg');
-like ($rc, qr/Bonn/, 'render graph as svg');
+SKIP:
+  {
+  eval { require Graph::Easy::As_svg; };
+
+  skip ('Graph::Easy::As_svg not installed', 2)
+    unless defined $Graph::Easy::As_svg::VERSION;
+
+  $rc = `../graphcnv '[Bonn]->[Berlin]' 'utf-8' 'svg'`;
+  like ($rc, qr/svg/, 'render graph as svg');
+  like ($rc, qr/Bonn/, 'render graph as svg');
+  };
+
 

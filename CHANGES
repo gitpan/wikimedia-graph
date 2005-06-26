@@ -1,4 +1,9 @@
 
+2005-06-25 v0.08 Tels 7 tests
+  * set an ABSTRACT for CPAN
+  * require Graph::Easy v0.20
+  * skip SVG tests if Graph::Easy::As_svg is not installed
+
 2005-06-15 v0.07 Tels 7 tests
   * use Graph::Easy v0.19 now
   * support output format SVG
