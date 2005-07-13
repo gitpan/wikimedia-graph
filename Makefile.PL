@@ -13,6 +13,7 @@ sub MY::metafile {
   my $node = new YAML::Node {};
 
   $node->{name}                 = $self->{DISTNAME};
+  $node->{abstract}		= $self->{ABSTRACT};
   $node->{version}              = $self->{VERSION};
   $node->{version_from}         = $self->{VERSION_FROM};
   $node->{license}              = 'gpl';
@@ -31,9 +32,9 @@ sub MY::metafile {
 
 WriteMakefile(
     NAME		=> 'wikimedia-graph',
-    VERSION		=> 0.08,
+    VERSION		=> 0.09,
     PREREQ_PM		=> {
-	Graph::Easy => 0.20,
+	Graph::Easy => 0.22,
 	},
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT  => 'Integrate Graph::Easy into Wikimedia',

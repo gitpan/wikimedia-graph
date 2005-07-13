@@ -1,4 +1,8 @@
 
+2005-07-14 v0.09 Tels 7 tests
+  * include our Credits on Special::Version
+  * require Graph::Easy v0.22
+
 2005-06-25 v0.08 Tels 7 tests
   * set an ABSTRACT for CPAN
   * require Graph::Easy v0.20
