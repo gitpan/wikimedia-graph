@@ -1,4 +1,9 @@
 
+2005-09-04 v0.10 Tels 7 tests
+  * fix tests to run on Windows
+  * require Graph::Easy v0.27
+  * include version on the special page
+
 2005-07-14 v0.09 Tels 7 tests
   * include our Credits on Special::Version
   * require Graph::Easy v0.22

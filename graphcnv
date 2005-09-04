@@ -8,7 +8,7 @@ BEGIN
 
 use strict;
 # use warnings;			# be lean
-use Graph::Easy 0.19;		# use min. v0.19
+use Graph::Easy 0.25;		# use min. v0.26
 use Graph::Easy::Parser;
 
 my $timeout = 6; 		# set hard timeout

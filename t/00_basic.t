@@ -10,14 +10,20 @@ BEGIN
   chdir 't' if -d 't';
   }
 
-my $rc = `../graphcnv`;
+use File::Spec;
+
+my $cmd = File::Spec->catdir( File::Spec->updir(),'graphcnv' );
+
+$cmd = 'perl ' . $cmd if $^O =~ /mswin/;
+
+my $rc = `$cmd`;
 like ($rc, qr/Usage:/, 'usage instruction');
 
-$rc = `../graphcnv '[Bonn]->[Berlin]' 'utf-8'`;
+$rc = `$cmd '[Bonn]->[Berlin]' 'utf-8'`;
 like ($rc, qr/Bonn/, 'render graph');
 like ($rc, qr/<table/, 'render graph as html');
 
-$rc = `../graphcnv '[Bonn]->[Berlin]' 'utf-8' 'ascii'`;
+$rc = `$cmd '[Bonn]->[Berlin]' 'utf-8' 'ascii'`;
 like ($rc, qr/\| Bonn/, 'render graph as ascii');
 unlike ($rc, qr/<table/, 'render graph not as html');
 
@@ -28,7 +34,7 @@ SKIP:
   skip ('Graph::Easy::As_svg not installed', 2)
     unless defined $Graph::Easy::As_svg::VERSION;
 
-  $rc = `../graphcnv '[Bonn]->[Berlin]' 'utf-8' 'svg'`;
+  $rc = `$cmd '[Bonn]->[Berlin]' 'utf-8' 'svg'`;
   like ($rc, qr/svg/, 'render graph as svg');
   like ($rc, qr/Bonn/, 'render graph as svg');
   };
