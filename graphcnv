@@ -8,7 +8,7 @@ BEGIN
 
 use strict;
 # use warnings;			# be lean
-use Graph::Easy 0.25;		# use min. v0.26
+use Graph::Easy 0.28;
 use Graph::Easy::Parser;
 
 my $timeout = 6; 		# set hard timeout
@@ -31,6 +31,8 @@ eval
   my ($txt, $encoding, $output) = @ARGV;
   $output = 'html' unless $output;
 
+  die ("Error: Invalid output format '$output'.") if $output !~ /^(html|ascii|svg)$/i;
+
   if ($debug)
     { 
     open FILE, ">logfile.log" or die ("Cannot open logfile.log: $1");
@@ -39,15 +41,14 @@ eval
 
   my $graph = $parser->from_text($txt);		# create a graph object
 
-  if ($output !~ /^(html|ascii|svg)$/i)
-    {
-    die ("Output format '$output' not understood by graphcnv");
-    }
+  die ($parser->error()) if $parser->error();
 
   if ($output =~ /html/i)
     {
-    my $css = "<style type='text/css'><!--\n" . $graph->css() . "--></style>\n";
+    my $css = "<style type='text/css'><!--\n" . $graph->css() . "--></style>";
     my $html = $graph->as_html();
+
+    $html =~ s/\n+\z//;				# remove trailing "\n"
 
     # mediawiki doesn't like leading spaces and empty lines in the CSS
     $css =~ s/(^|\n)\s+/$1/g;			# spaces at front
@@ -77,9 +78,8 @@ eval
 
 if ($@) 
   {
+  print "<strong class='error'>Error: $@</strong>\n";
   die unless $@ =~ /graphcnv took to long/;	# propagate unexpected errors
-  # timed out
-  print $@;
   }
 
 1;

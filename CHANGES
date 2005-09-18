@@ -1,4 +1,10 @@
 
+2005-09-18 v0.11 Tels 7 tests
+  * require Graph::Easy v0.28
+  * remove unnec. "\n" after CSS and HTML code in output, this created
+    ugly empty spaces below and over the graph
+  * propagate error messages back so that the editing user can see them
+
 2005-09-04 v0.10 Tels 7 tests
   * fix tests to run on Windows
   * require Graph::Easy v0.27
