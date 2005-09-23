@@ -6,9 +6,11 @@ BEGIN
   unshift @INC, 'lib';		# use local modules first
   }
 
+$VERSION = '0.12';
+
 use strict;
 # use warnings;			# be lean
-use Graph::Easy 0.28;
+use Graph::Easy 0.30;
 use Graph::Easy::Parser;
 
 my $timeout = 6; 		# set hard timeout
@@ -23,16 +25,12 @@ if (@ARGV < 2 || @ARGV > 3)
 
 eval
   {
-  local $SIG{ALRM} = sub { die "graphcnv took to long to parse\n" };
+  local $SIG{ALRM} = sub { die "graphcnv took more than $timeout seconds to parse and layout graph\n" };
   alarm $timeout;
 
   my $parser = Graph::Easy::Parser->new();
 
   my ($txt, $encoding, $output) = @ARGV;
-  $output = 'html' unless $output;
-
-  die ("Error: Invalid output format '$output'.") if $output !~ /^(html|ascii|svg)$/i;
-
   if ($debug)
     { 
     open FILE, ">logfile.log" or die ("Cannot open logfile.log: $1");
@@ -41,7 +39,14 @@ eval
 
   my $graph = $parser->from_text($txt);		# create a graph object
 
-  die ($parser->error()) if $parser->error();
+  # the "\n" prevents double line nr double line nr reports
+  die ($parser->error()."\n") if $parser->error();
+
+  # if user specified output like "graph { output: ascii; }", use it
+  $output = $graph->attribute('graph', 'output') unless $output;
+  # fallback to html output
+  $output = 'html' unless $output;
+  die ("Invalid output format '$output'\n") if $output !~ /^(html|ascii|svg)$/i;
 
   if ($output =~ /html/i)
     {
@@ -69,7 +74,12 @@ eval
   else
     {
     # output as SVG, suitable for embedding into HTML
-    print $graph->as_svg();
+    my $svg = $graph->as_svg();
+   
+    # mediawiki doesn't like leading spaces and empty lines in the SVG
+    $svg =~ s/(^|\n)\s+/$1/g;			# spaces at front
+    $svg =~ s/\n{2,}/\n/g;			# empty lines
+    print $svg;
     }
 
   # disable alarm
@@ -78,8 +88,8 @@ eval
 
 if ($@) 
   {
-  print "<strong class='error'>Error: $@</strong>\n";
-  die unless $@ =~ /graphcnv took to long/;	# propagate unexpected errors
+  # propagate unexpected errors
+  print "<strong class='error'>graphcnv error: $@</strong>\n";
   }
 
 1;
@@ -109,14 +119,6 @@ L<Graph::Easy> behind the scenes to do all the hard work.
 =head1 VERSIONS
 
 Please see the CHANGES file for a complete version history.
-
-=item v0.07 2005-07-12 Tels 7 tests
-
-	use Graph::Easy 0.19
-	support output format SVG
-	die on unknown output formats
-
-=back
 
 =head1 LICENSE
 

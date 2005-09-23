@@ -6,7 +6,7 @@ use Test::More;
 
 BEGIN
   {
-  plan tests => 7;
+  plan tests => 9;
   chdir 't' if -d 't';
   }
 
@@ -37,6 +37,8 @@ SKIP:
   $rc = `$cmd '[Bonn]->[Berlin]' 'utf-8' 'svg'`;
   like ($rc, qr/svg/, 'render graph as svg');
   like ($rc, qr/Bonn/, 'render graph as svg');
+  unlike ($rc, qr/^\s/m, 'no leading spaces');
+  unlike ($rc, qr/\n\n/, 'no empty lines');
   };
 
 

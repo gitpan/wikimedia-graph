@@ -46,7 +46,6 @@ get compromised!
 Install the following Perl modules into your system:
 
 	Heap
-	Graph
 	Graph-Easy
 	Graph-Easy-As_svg	(optional, for SVG output)
 
@@ -56,17 +55,17 @@ Afterwards, you should be able to run this on any command line:
 
 	perl -MGraph::Easy\ 99
 
-and it should report your installed Graph::Easy version (like v0.20).
+and it should report your installed Graph::Easy version (like v0.30).
 
-	Graph::Easy version 99 required--this is only version 0.20.
+	Graph::Easy version 99 required--this is only version 0.30.
 	BEGIN failed--compilation aborted.
 
 If it says something about "Graph::Easy" not being found, you need to
 install it first as root (see above!).
 
 Note: You do NOT need to install Graph::Simple (the former name of
-Graph::Easy). If it is already installed, that will not do any harm,
-however.
+Graph::Easy), nor Graph (formerly used by Graph::Easy). If they are already
+installed, that will not do any harm, however.
 
 =head2 Run the testsuite
 

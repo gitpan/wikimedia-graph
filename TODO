@@ -1,0 +1,7 @@
+
+* The SVG output currently results in a garbled page (under Opera, not tested
+  in other browsers since I was unable to get SVG working in Firefox nor
+  Konqueror)
+  Allowing the "<svg>" tag in Parser.php seems not to help. Maybe SVG should
+  generate a SVG file, and then reference this instead of inlining the SVG
+  source code into the page.
