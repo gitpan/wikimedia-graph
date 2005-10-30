@@ -6,11 +6,11 @@ BEGIN
   unshift @INC, 'lib';		# use local modules first
   }
 
-$VERSION = '0.12';
+$VERSION = '0.13';
 
 use strict;
 # use warnings;			# be lean
-use Graph::Easy 0.30;
+use Graph::Easy 0.31;
 use Graph::Easy::Parser;
 
 my $timeout = 6; 		# set hard timeout
@@ -46,8 +46,9 @@ eval
   $output = $graph->attribute('graph', 'output') unless $output;
   # fallback to html output
   $output = 'html' unless $output;
-  die ("Invalid output format '$output'\n") if $output !~ /^(html|ascii|svg)$/i;
+  die ("Invalid output format '$output'\n") if $output !~ /^(html|ascii|svg|boxart)\z/i;
 
+  binmode STDOUT, ':utf8' or die ("binmode STDOUT, ':utf8' failed: $!");
   if ($output =~ /html/i)
     {
     my $css = "<style type='text/css'><!--\n" . $graph->css() . "--></style>";
@@ -65,6 +66,11 @@ eval
       }
 
     print $css, $html;
+    }
+  elsif ($output =~ /boxart/)
+    {
+    # output as Unicode box drawing, suitable for embedding into HTML
+    print $graph->as_boxart_html();
     }
   elsif ($output =~ /ascii/)
     {

@@ -1,4 +1,10 @@
 
+2005-10-30 v0.13 Tels 9 tests
+  * require Graph::Easy 0.31
+  * allow "boxart" as output mode
+  * put STDOUT into ':utf8' mode (for utf-8 output)
+  * do not add spurious linebreak in Special::Version page
+
 2005-09-23 v0.12 Tels 9 tests
   * require Graph::Easy v0.30
   * fix SVG output (leading \n and empty lines were garbled by MediaWiki)

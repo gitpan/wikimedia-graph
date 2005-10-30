@@ -1,11 +1,11 @@
 --- #YAML:1.0
 name: wikimedia-graph
 abstract: Integrate Graph::Easy into Wikimedia
-version: 0.12
+version: 0.13
 version_from: graphcnv
 license: gpl
 distribution_type: module
-generated_by: wikimedia-graph version 0.12
+generated_by: wikimedia-graph version 0.13
 installdirs: site
 requires:
-  Graph::Easy: 0.3
+  Graph::Easy: 0.31
