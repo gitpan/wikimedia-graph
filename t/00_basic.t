@@ -6,7 +6,7 @@ use Test::More;
 
 BEGIN
   {
-  plan tests => 9;
+  plan tests => 11;
   chdir 't' if -d 't';
   }
 
@@ -25,6 +25,10 @@ like ($rc, qr/<table/, 'render graph as html');
 
 $rc = `$cmd '[Bonn]->[Berlin]' 'utf-8' 'ascii'`;
 like ($rc, qr/\| Bonn/, 'render graph as ascii');
+unlike ($rc, qr/<table/, 'render graph not as html');
+
+$rc = `$cmd '[Bonn]->[Berlin]' 'utf-8' 'boxart'`;
+like ($rc, qr/│ Bonn/, 'render graph as boxart');
 unlike ($rc, qr/<table/, 'render graph not as html');
 
 SKIP:

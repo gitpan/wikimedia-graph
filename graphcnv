@@ -6,7 +6,7 @@ BEGIN
   unshift @INC, 'lib';		# use local modules first
   }
 
-$VERSION = '0.13';
+$VERSION = '0.14';
 
 use strict;
 # use warnings;			# be lean
@@ -14,7 +14,6 @@ use Graph::Easy 0.31;
 use Graph::Easy::Parser;
 
 my $timeout = 6; 		# set hard timeout
-my $debug = 0;			# set to 1 to see some debug output
  
 # wrong number of options?
 if (@ARGV < 2 || @ARGV > 3)
@@ -31,11 +30,13 @@ eval
   my $parser = Graph::Easy::Parser->new();
 
   my ($txt, $encoding, $output) = @ARGV;
-  if ($debug)
-    { 
-    open FILE, ">logfile.log" or die ("Cannot open logfile.log: $1");
-    print "<!-- Arguments:\n '", join ("', '", $txt, $encoding), "' -->\n";
-    }
+
+  # We do NOT check the return value, because it will be false for "A", and
+  # true for "köln". (why?)
+
+  utf8::decode($txt);
+
+  binmode STDOUT, ':utf8' or die ("binmode STDOUT, ':utf8' failed: $!");
 
   my $graph = $parser->from_text($txt);		# create a graph object
 
@@ -48,7 +49,6 @@ eval
   $output = 'html' unless $output;
   die ("Invalid output format '$output'\n") if $output !~ /^(html|ascii|svg|boxart)\z/i;
 
-  binmode STDOUT, ':utf8' or die ("binmode STDOUT, ':utf8' failed: $!");
   if ($output =~ /html/i)
     {
     my $css = "<style type='text/css'><!--\n" . $graph->css() . "--></style>";
@@ -58,12 +58,6 @@ eval
 
     # mediawiki doesn't like leading spaces and empty lines in the CSS
     $css =~ s/(^|\n)\s+/$1/g;			# spaces at front
-
-    if ($debug)
-      {
-      print FILE $css, $html;
-      close FILE;
-      }
 
     print $css, $html;
     }
@@ -121,6 +115,9 @@ Examples:
 
 Turns a given textual graph representation into a pretty graph. Uses
 L<Graph::Easy> behind the scenes to do all the hard work.
+
+The C<encoding> parameter is currently ignored, the input is expected
+to be in C<utf-8>.
 
 =head1 VERSIONS
 

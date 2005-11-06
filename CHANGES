@@ -1,4 +1,9 @@
 
+2005-11-06 v0.14 Tels 11 tests
+  * require Graph::Easy 0.32
+  * use utf8:decode() on incoming text, to make non-ASCII input work
+  * remove debug support 
+
 2005-10-30 v0.13 Tels 9 tests
   * require Graph::Easy 0.31
   * allow "boxart" as output mode
