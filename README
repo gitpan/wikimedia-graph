@@ -32,14 +32,54 @@ The HTML output would look similiar except be more pretty :o)
 
 =head1 Check the Signature
 
-Install the Perl module Module-Signature, get my key from
-http://bloodgate.com/tels.asc and then do:
+First you need to check the signature on the package to verify that
+it is untampered and intact. To do this you have to:
+
+=over 2
+
+=item *
+
+Install the Perl module Module::Signature from http://search.cpan.org
+
+=item *
+
+Get my key from http://bloodgate.com/tels.asc, import it into
+GnuPG with:
+
+	gpg --import tels.asc
+
+You may also let the C<cpansign> utility fetch it automatically
+from a keyserver, if that works for you.
+
+=item *
+
+Extract the package to a directory, change there and then:
+
+=item *
+
+Type on a console:
 
 	cpansign --verify
 
-inside the unpacked directory. Please notify me immidiately if the signature
-does not verify. In that case do NOT install this software, your system might
-get compromised!
+inside the unpacked directory. 
+
+=back
+
+If the last step says "good signature" or "SIGNATURE VERIFIED OK",
+everything is all right.
+
+Note that if C<cpansign> let GnuPG download my key from a keyserver, it
+might put a C<tels.asc> file in the package directory, and then afterward
+complain that "tels.asc" is not in the MANIFEST:
+
+ Not in MANIFEST: tels.asc
+ ==> MISMATCHED content between MANIFEST and distribution files! <==
+
+You can safely ignore this warning.
+
+B<NOTE:> Please notify me immidiately if the signature
+does not verify. In that case do B<NOT> install this software, your system
+might get compromised!
 
 =head1 Installation
 
@@ -49,7 +89,7 @@ Install the following Perl modules into your system:
 	Graph-Easy
 	Graph-Easy-As_svg	(optional, for SVG output)
 
-You can get these modules from http://search.cpan.org/
+You can get these modules from C<http://search.cpan.org/>.
 
 Afterwards, you should be able to run this on any command line:
 
@@ -124,6 +164,24 @@ and get a pretty ASCII art back.
 
 For more information please see L<http://bloodgate.com/perl/graph/>
 or send me an email.
+
+=head1 SVG OUTPUT
+
+To enable SVG output, you need to create a directory for the C<.svg>
+files that will be generated for the graphs. (Inlining the SVG code in
+the HTML page directly does not work, since no browser seesm to support
+this properly at this time).
+
+The C<.svg> files are currently written to C<./images/graph/> so you need
+to make sure that this directory exists and is writable by the web server
+process:
+
+	http_docroot
+		\ - cgi-bin			etc
+		\ - wiki
+			\ - images
+				\ - graph	<-- create this directory
+			\ - extensions		etc
 
 =head1 AUTHOR
 

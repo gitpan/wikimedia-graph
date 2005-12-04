@@ -1,5 +1,6 @@
 use 5.006001;
 use ExtUtils::MakeMaker;
+use strict;
 
 sub MY::metafile {
   package MY;
@@ -30,11 +31,30 @@ sub MY::metafile {
   return "metafile:\n$dump";
 }
 
+# svg is done via dot, too.
+eval { require Graph::Easy::As_svg; };
+
+my $ver = $Graph::Easy::As_svg::VERSION;
+
+if (!defined $ver)
+  {
+  print "\n************\nWARNING: ";
+  print "You do not seem to have Graph::Easy::As_svg installed.\n";
+  print "         SVG output (without dot) is not possible until you install it afterwards.\n\n";
+  }
+elsif ($ver <= 0.12)
+  {
+  print "\n************\n";
+  print "Warning: Your Graph::Easy::As_svg version is outdated.\n";
+  print "         Please upgrade it after installing this package.\n\n";
+  }
+
 WriteMakefile(
     NAME		=> 'wikimedia-graph',
     VERSION_FROM	=> 'graphcnv',
     PREREQ_PM		=> {
-	Graph::Easy => 0.32,
+	'Graph::Easy' => 0.34,
+	'Digest::SHA1' => 2.10,
 	},
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT  => 'Integrate Graph::Easy into Wikimedia',

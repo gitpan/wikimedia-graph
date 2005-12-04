@@ -6,14 +6,14 @@ BEGIN
   unshift @INC, 'lib';		# use local modules first
   }
 
-$VERSION = '0.14';
+$VERSION = '0.15';
 
 use strict;
 # use warnings;			# be lean
-use Graph::Easy 0.31;
+use Graph::Easy 0.34;
 use Graph::Easy::Parser;
 
-my $timeout = 6; 		# set hard timeout
+my $timeout = 5; 		# set hard timeout
  
 # wrong number of options?
 if (@ARGV < 2 || @ARGV > 3)
@@ -73,12 +73,42 @@ eval
     }
   else
     {
+    require Digest::SHA1;		# for hashing to a file name
+
     # output as SVG, suitable for embedding into HTML
-    my $svg = $graph->as_svg();
-   
-    # mediawiki doesn't like leading spaces and empty lines in the SVG
-    $svg =~ s/(^|\n)\s+/$1/g;			# spaces at front
-    $svg =~ s/\n{2,}/\n/g;			# empty lines
+    my $svg = $graph->as_svg_file();
+
+    my $info = $graph->svg_information();
+    # use sensible defaults, and sane values
+    my $w = abs(int($info->{width} || 200)) + 1;
+    my $h = abs(int($info->{height} || 100)) + 1;
+
+    # Cairo has problems with bigger SVGs
+    my $max = 32*1024 -1;
+    $w = $max if $w > $max;
+    $h = $max if $h > $max;
+
+    # Hash the graph text representation to the filename
+    # Different graphs that are equivalent will hash to the same file
+    # name, thus saving us space.  
+    my $sha1 = Digest::SHA1->new();
+    $sha1->add($graph->as_txt());
+    my $hash = $sha1->hexdigest;
+
+    my $file = "images/graph/$hash.svg";
+    open FILE, ">$file" or die ("Can't write to $file: $!");
+    binmode FILE, ':utf8';
+    print FILE $svg;
+    close FILE;
+
+    $svg = '<object type="image/svg+xml" width="##w##" height="##h##" data="/wiki/images/graph/##file##">' . "\n" .
+           '<b>Your browser does not yet support <a title="Scalable Vector Graphics" href="/wiki/SVG">SVG</a>.</b>' . "\n" .
+           "</object>\n";
+
+    $svg =~ s/##file##/$hash.svg/g;
+    $svg =~ s/##w##/$w/g;
+    $svg =~ s/##h##/$h/g;
+
     print $svg;
     }
 

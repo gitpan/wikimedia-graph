@@ -1,4 +1,15 @@
 
+2005-12-04 v0.15 Tels 13 tests
+  * require Graph::Easy 0.34
+  * require Digest::SHA1 2.10
+  * warn on not-installed or outdated As_svg
+  * fix SVG output: create an SVG file in images/graph and embed it
+    via an OBJECT tag. The file name is an SHA1 of $graph->as_txt().
+  * describe cpansign --verify in README better (Thanx Mutante!)
+  * skip right number of tests if Graph::Easy::As_svg is not installed
+    (Thanx Mutante again!)
+  * fix output on Special::Version page (escape $ to \$)
+
 2005-11-06 v0.14 Tels 11 tests
   * require Graph::Easy 0.32
   * use utf8:decode() on incoming text, to make non-ASCII input work
@@ -43,7 +54,7 @@
   * die() on unknown output formats
 
 2005-03-11 v0.06 Tels 5 tests
-  * add (c) note to Graph.pgp
+  * add (c) note to Graph.php
   * include CHANGES
   * require Graph::Simple v0.14
 

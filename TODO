@@ -1,7 +1,6 @@
 
-* The SVG output currently results in a garbled page (under Opera, not tested
-  in other browsers since I was unable to get SVG working in Firefox nor
-  Konqueror)
-  Allowing the "<svg>" tag in Parser.php seems not to help. Maybe SVG should
-  generate a SVG file, and then reference this instead of inlining the SVG
-  source code into the page.
+* The SVG output is always written to "images/graph". This should be
+  configurable from LocalSettings.php (but raises the question of tainted
+  input via the command line and relative vs. absolute paths)
+* Konqueror versions that do not support SVG seem to take a very long
+  time to render the page (with the alternate text finally showing)
