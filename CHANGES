@@ -1,4 +1,12 @@
 
+2005-12-10 v0.16 Tels 20 tests
+  * require Graph::Easy 0.35
+  * require Config::Tiny 2.02
+  * add PNG support via dot/neato
+  * add config file support (graph.cfg)
+  * put generated files into sub directories to avoid millions files-per-dir
+  * quote parser error output to prevent HTML accidents
+
 2005-12-04 v0.15 Tels 13 tests
   * require Graph::Easy 0.34
   * require Digest::SHA1 2.10

@@ -1,0 +1,19 @@
+# Config for Wikimedia graph extension
+
+[graph]
+
+# The two settings below result in "/wiki/images/graph/...":
+# where to write the generated SVG and PNG images
+output=images/graph/
+# this prefix is prepended to the paths in the returned HTML code
+prefix=/wiki/
+
+[ graphviz ]
+# Which output format should the graphviz renderer render?
+format=png
+# which program to use to render graphviz, can be dot, circo, neato etc:
+renderer=dot
+
+[ errors ]
+# base URL for error messages
+manual=http://bloodgate.com/perl/graph/manual/errors.html1

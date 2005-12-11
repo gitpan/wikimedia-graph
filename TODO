@@ -1,6 +1,5 @@
 
-* The SVG output is always written to "images/graph". This should be
-  configurable from LocalSettings.php (but raises the question of tainted
-  input via the command line and relative vs. absolute paths)
 * Konqueror versions that do not support SVG seem to take a very long
   time to render the page (with the alternate text finally showing)
+* we should lock a lockfile to prevent multiple instances overwriting
+  each others files (important for SVG/PNG output)

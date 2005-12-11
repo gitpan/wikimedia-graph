@@ -53,7 +53,8 @@ WriteMakefile(
     NAME		=> 'wikimedia-graph',
     VERSION_FROM	=> 'graphcnv',
     PREREQ_PM		=> {
-	'Graph::Easy' => 0.34,
+	'Graph::Easy' => 0.35,
+	'Config::Tiny' => 2.02,
 	'Digest::SHA1' => 2.10,
 	},
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005

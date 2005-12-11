@@ -24,7 +24,7 @@ $wgExtensionCredits[parserhook][] = array(
 	'name' => 'graph extension',
 	'author' => 'Tels',
 	'url' => 'http://wwww.bloodgate.com/perl/graph/',
-	'version' => 'v0.15 using Graph::Easy v' . `perl -MGraph::Easy -e 'print \$Graph::Easy::VERSION'`,
+	'version' => 'v0.16 using Graph::Easy v' . `perl -MGraph::Easy -e 'print \$Graph::Easy::VERSION'`,
 );
  
 # The callback function for converting the input text to HTML output
@@ -35,13 +35,14 @@ function renderGraph( $input ) {
 	return "<strong class='error'><code>graph/graphcnv</code> is not executable</strong>";
     }
 
-    $cmd = "graph/graphcnv ".
-                 escapeshellarg($input)." ".
-                 escapeshellarg($wgInputEncoding);
+    $cmd = "graph/graphcnv ".  escapeshellarg($input);
+    # ." ". escapeshellarg($wgInputEncoding);
     $output = `$cmd`;
 
     if (strlen($output) == 0) {
-	return "<strong class='error'>Couldn't execute <code>graph/graphcnv</code></strong>";
+	return "<strong class='error'>Couldn't execute <code>graph/graphcnv</code></strong>"
+               . ' See the <a alt="Graph::Easy online manual" title="Graph::Easy online manual" href="'
+	       . 'http://bloodgate.com/perl/graph/manual/errors.html#1">manual</a> for help.';
     }
 
     return $output;

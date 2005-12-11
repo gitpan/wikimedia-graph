@@ -1,5 +1,9 @@
 =pod
 
+To better view this file, use:
+
+	perldoc README
+
 =head1 graphcnv
 
 Take textual graph descriptions and turn them into something that looks pretty.
@@ -27,8 +31,7 @@ would be rendered in ASCII as:
 	             | Potsdam | ==> | Cottbus |
 	             +---------+     +---------+
 
-The HTML output would look similiar except be more pretty :o)
-
+The HTML, SVG or PNG output would look similiar, except be more pretty :o)
 
 =head1 Check the Signature
 
@@ -86,6 +89,7 @@ might get compromised!
 Install the following Perl modules into your system:
 
 	Heap
+	Config-Tiny
 	Graph-Easy
 	Graph-Easy-As_svg	(optional, for SVG output)
 
@@ -95,9 +99,9 @@ Afterwards, you should be able to run this on any command line:
 
 	perl -MGraph::Easy\ 99
 
-and it should report your installed Graph::Easy version (like v0.30).
+and it should report your installed Graph::Easy version (like v0.34).
 
-	Graph::Easy version 99 required--this is only version 0.30.
+	Graph::Easy version 99 required--this is only version 0.34.
 	BEGIN failed--compilation aborted.
 
 If it says something about "Graph::Easy" not being found, you need to
@@ -158,23 +162,38 @@ If you get error messages like:
 
 make sure that you can run manually (from your wiki directory):
 
-	./graph/graphcnv '[ Bonn ] -> [ Berlin ]' 'utf-8' 'ascii'
+	./graph/graphcnv '[ Bonn ] -> [ Berlin ]' 'ascii'
 
 and get a pretty ASCII art back.
+
+=head1 CONFIGURATION
+
+Inside the C<graph> subdirectory there is a file called C<graph.cfg.sample>.
+Copy it to C<graph.cfg> like so:
+
+	http_docroot
+		\ - cgi-bin			etc
+		\ - wiki
+			\ - graph
+				graph.cfg.sample	<-- from here
+				graph.cfg		<-- to here
+
+Then edit it to your match your settings.
 
 For more information please see L<http://bloodgate.com/perl/graph/>
 or send me an email.
 
-=head1 SVG OUTPUT
+=head1 SVG AND PNG OUTPUT
 
-To enable SVG output, you need to create a directory for the C<.svg>
+To enable SVG/PNG etc. output, you need to create a directory for the
 files that will be generated for the graphs. (Inlining the SVG code in
 the HTML page directly does not work, since no browser seesm to support
 this properly at this time).
 
-The C<.svg> files are currently written to C<./images/graph/> so you need
-to make sure that this directory exists and is writable by the web server
-process:
+The C<.svg> (or C<.png>) files are written to the output directory
+set in the config file, which defaults to C<./images/graph/>.
+So you need to make sure that this directory exists and is writable by the
+web server process:
 
 	http_docroot
 		\ - cgi-bin			etc
@@ -182,6 +201,10 @@ process:
 			\ - images
 				\ - graph	<-- create this directory
 			\ - extensions		etc
+
+You need also make sure that you web server process can write to this
+directory, so you might need to give it the same user/group as the
+process is using, f.i. C<chmod nobody.nogroup images/graph>.
 
 =head1 AUTHOR
 
