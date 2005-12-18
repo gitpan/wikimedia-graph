@@ -6,7 +6,7 @@ BEGIN
   unshift @INC, 'lib';		# use local modules first
   }
 
-$VERSION = '0.16';
+$VERSION = '0.17';
 
 use strict;
 # use warnings;			# be lean
@@ -83,12 +83,17 @@ eval
     my $css = "<style type='text/css'><!--\n" . $graph->css() . "--></style>";
     my $html = $graph->as_html();
 
-    $html =~ s/\n+\z//;				# remove trailing "\n"
+    #$html =~ s/\n+\z//;			# remove trailing "\n"
+    #$html =~ s/^\n+//;				# remove leading "\n"
 
     # mediawiki doesn't like leading spaces and empty lines in the CSS
     $css =~ s/(^|\n)\s+/$1/g;			# spaces at front
 
-    print $css, $html;
+    # it also seems not to like to longs stretches of CSS :-/
+    $css =~ s/\n+//g;				# remove all newlines
+    $html =~ s/\n+//g;				# remove all newlines
+
+    print $css . $html;
     }
   elsif ($output =~ /boxart/i)
     {
@@ -163,7 +168,7 @@ eval
       unlink $file;
 
       # make the ENV safe
-      local %ENV = { path => '/usr/bin:/usr/local/bin:/bin:/' };
+      local %ENV = ( path => '/usr/bin:/usr/local/bin:/bin:/' );
 
       my $dot_file = $file; $dot_file =~ s/\.[^\.]+\z/.dot/;
 

@@ -1,4 +1,10 @@
 
+2005-12-18 v0.17 Tels 20 tests
+  * require Graph::Easy 0.36
+  * remove all "\n" from returned HTML output, because Mediawiki insists
+    on inserting <p></p> for ever N lines or so, destroying the output
+  * fix typo in graph.cfg.sample
+
 2005-12-10 v0.16 Tels 20 tests
   * require Graph::Easy 0.35
   * require Config::Tiny 2.02

@@ -24,7 +24,7 @@ $wgExtensionCredits[parserhook][] = array(
 	'name' => 'graph extension',
 	'author' => 'Tels',
 	'url' => 'http://wwww.bloodgate.com/perl/graph/',
-	'version' => 'v0.16 using Graph::Easy v' . `perl -MGraph::Easy -e 'print \$Graph::Easy::VERSION'`,
+	'version' => 'v0.17 using Graph::Easy v' . `perl -MGraph::Easy -e 'print \$Graph::Easy::VERSION'`,
 );
  
 # The callback function for converting the input text to HTML output

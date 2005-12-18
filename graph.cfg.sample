@@ -16,4 +16,4 @@ renderer=dot
 
 [ errors ]
 # base URL for error messages
-manual=http://bloodgate.com/perl/graph/manual/errors.html1
+manual=http://bloodgate.com/perl/graph/manual/errors.html

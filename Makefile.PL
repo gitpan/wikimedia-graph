@@ -53,11 +53,11 @@ WriteMakefile(
     NAME		=> 'wikimedia-graph',
     VERSION_FROM	=> 'graphcnv',
     PREREQ_PM		=> {
-	'Graph::Easy' => 0.35,
+	'Graph::Easy' => 0.36,
 	'Config::Tiny' => 2.02,
 	'Digest::SHA1' => 2.10,
 	},
-    ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-      (ABSTRACT  => 'Integrate Graph::Easy into Wikimedia',
-       AUTHOR         => 'Tels <nospam-abuse@bloodgate.com>') : ()),
+    ABSTRACT		=> 'Integrate Graph::Easy into Wikimedia',
+    AUTHOR		=> 'Tels <nospam-abuse@bloodgate.com>',
+    PREREQ_FATAL	=> 1,  # can't work w/o proper prereqs
 );
