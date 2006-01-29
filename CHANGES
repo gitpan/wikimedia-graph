@@ -1,4 +1,9 @@
 
+2006-01-28 v0.18 Tels 20 tests
+  * require Graph::Easy 0.40
+  * fix an unquoted bareword in Graph.php (Thanx Mutante!)
+  * fix Makefile.PL to work with newer YAML
+
 2005-12-18 v0.17 Tels 20 tests
   * require Graph::Easy 0.36
   * remove all "\n" from returned HTML output, because Mediawiki insists

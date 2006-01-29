@@ -6,11 +6,11 @@ BEGIN
   unshift @INC, 'lib';		# use local modules first
   }
 
-$VERSION = '0.17';
+$VERSION = '0.18';
 
 use strict;
 # use warnings;			# be lean
-use Graph::Easy 0.35;
+use Graph::Easy 0.40;
 use Graph::Easy::Parser;
 use Config::Tiny;
 
@@ -251,7 +251,7 @@ See the LICENSE file for information.
 
 =head1 AUTHOR
 
-(c) by Tels bloodgate.com 2005
+(c) by Tels bloodgate.com 2005-2006
 
 =head1 SEE ALSO
 

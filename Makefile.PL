@@ -11,7 +11,8 @@ sub MY::metafile {
     return $self->SUPER::metafile_target(@_);
   };
 
-  my $node = new YAML::Node {};
+  require YAML::Node;
+  my $node = YAML::Node->new({});
 
   $node->{name}                 = $self->{DISTNAME};
   $node->{abstract}		= $self->{ABSTRACT};
@@ -42,7 +43,7 @@ if (!defined $ver)
   print "You do not seem to have Graph::Easy::As_svg installed.\n";
   print "         SVG output (without dot) is not possible until you install it afterwards.\n\n";
   }
-elsif ($ver <= 0.12)
+elsif ($ver <= 0.16)
   {
   print "\n************\n";
   print "Warning: Your Graph::Easy::As_svg version is outdated.\n";
@@ -53,7 +54,7 @@ WriteMakefile(
     NAME		=> 'wikimedia-graph',
     VERSION_FROM	=> 'graphcnv',
     PREREQ_PM		=> {
-	'Graph::Easy' => 0.36,
+	'Graph::Easy' => 0.40,
 	'Config::Tiny' => 2.02,
 	'Digest::SHA1' => 2.10,
 	},
